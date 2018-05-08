@@ -3,27 +3,20 @@ $(document).ready(function() {
     /*Global Variables
     ==============================================================*/
     var topics = ['cats', 'dogs', 'chicken', 'walrus'];
-    var stillImgUrl = '';
-    var animateImgUrl = '';
+    var stillImg = '';
+    var animateImg = '';
     var gifCondition = '';
     var stillUrl = '';
     var animateUrl = '';
-    /*Functions
-    ==============================================================*/
+  
+    // Functions
     var createBtn = function() {
-        //removes all elements within the btn-section
         $('#btn-section').empty();
-        //Create buttons based on elements in array
         for (var i = 0; i < topics.length; i++) {
-            //Creates new buttons
             var newBtn = $('<button>');
-            //Give button an attribute // COME BACK TO THIS*********
             newBtn.attr('data-name', topics[i]);
-            //Add class to button
-            newBtn.attr('class', 'gif');
-            //Give button name that reflext array
+            newBtn.attr('class','btn btn-primary gif')
             newBtn.text(topics[i]);
-            //Add button to DOM
             $('#btn-section').append(newBtn);
         }
     }
@@ -46,20 +39,17 @@ $(".search").keydown(function(event){
 
     var submit = function() {
             event.preventDefault();
-            //Get input text value
+
             var inputVal = $('#userInput').val();
-            //push user input to array
             topics.push(inputVal);
-            //Create new buttons
             createBtn();
-            //Testing
+
             console.log(inputVal);
             console.log(topics);
     }
     var displayGif = function() {
         //Gets the value of the button that is clicked
         var btnVal = $(this).data('name');
-        //Api URL and key 
         var apiKey = '67IsmI93AjzRiybOS8qyOsf6k216vKeY';
         var queryURL = 'https://api.giphy.com/v1/gifs/search?q=' + btnVal + '&api_key=' + apiKey;
         $.ajax({
@@ -75,25 +65,25 @@ $(".search").keydown(function(event){
 
             for (var i = 0; i < 10; i++) {
                 //Still & Animated Images
-                stillImgUrl = response['data'][i]['images']['fixed_height_still']['url'];
-                animateImgUrl = response['data'][i]['images']['fixed_height']['url'];
+                stillImg = response['data'][i]['images']['fixed_height_still']['url'];
+                animateImg = response['data'][i]['images']['fixed_height']['url'];
                 //rating
                 var rating = response['data'][i]['rating'];
                 //Assign image element to newImg variable
-                var newDiv = $('<div>'); //********
-                var newP = $('<p>'); //*********
+                var newDiv = $('<div>'); 
+                var newP = $('<p>'); 
                 var newImg = $('<img>');
-                //Give img element stillImgUrl, animated  & src attribute
-                newImg.attr('data-still', stillImgUrl);
-                newImg.attr('data-animate', animateImgUrl);
-                newImg.attr('src', stillImgUrl);
-                newImg.attr('data-type', 'still');
+                //Give img element stillImg, animated  & src attribute
+                newImg.attr('data-still', stillImg);
+                newImg.attr('data-animate', animateImg);
+                newImg.attr('src', animateImg);
+                newImg.attr('data-type', 'animate');
                 newImg.addClass('gifImage');
                 //Give p element the rating texts
                 newP.html('Giphy Rating: ' + rating);
                 $(newP).appendTo(newDiv)
                 $(newImg).appendTo(newDiv);
-                $('.gifSection').append(newDiv); //**********
+                $('.gifSection').append(newDiv); 
             }
         });
     }
@@ -102,18 +92,18 @@ $(".search").keydown(function(event){
         gifCondition = $(this).data('type');
         stillUrl = $(this).data('still');
         animateUrl = $(this).data('animate');
-        if (gifCondition === 'still') {
-            //Changes the gif to an animated image by switching the URL
-            $(this).attr('src', animateUrl);
-            //Switch the data-type to animate
-            $(this).data('type', 'animate');
-            //Testing
-            console.log(gifCondition);
-        } else if (gifCondition === 'animate') {
+        if (gifCondition === 'animate') {
             //Change src to still
             $(this).attr('src', stillUrl);
             //Switch the data-type to still
             $(this).data('type', 'still');
+            //Testing
+            console.log(gifCondition);
+        } else if (gifCondition === 'still') {
+            //Changes the gif to an animated image by switching the URL
+            $(this).attr('src', animateUrl);
+            //Switch the data-type to animate
+            $(this).data('type', 'animate');
             //Testing
             console.log(gifCondition);
         }
@@ -122,7 +112,6 @@ $(".search").keydown(function(event){
     /*Main
     ==============================================================*/
     createBtn();
-    // submit();
     $(document).on('click', '.gif', displayGif);
     $(document).on('click', '.gifImage', gifAnimate);
 });
