@@ -1,7 +1,6 @@
 
 $(document).ready(function() {
-    /*Global Variables
-    ==============================================================*/
+    // Global variables
     var topics = ['cats', 'dogs', 'chicken', 'walrus'];
     var stillImg = '';
     var animateImg = '';
@@ -21,25 +20,14 @@ $(document).ready(function() {
         }
     }
 
-//When submit button is clicked .............
+//When submit button is clicked
 $('#submit-btn').on('click', function(event) {
     submit();
 });
 
-//When Enter is pressed.....
-$(".search").keydown(function(event){
-    if(event.keyCode == 13){
-        console.log("working");
-        submit();
-        $('.search').val("");
-        return false
-    }
-});
-
-
     var submit = function() {
             event.preventDefault();
-
+            // creates button
             var inputVal = $('#userInput').val();
             topics.push(inputVal);
             createBtn();
@@ -70,8 +58,8 @@ $(".search").keydown(function(event){
                 //rating
                 var rating = response['data'][i]['rating'];
                 //Assign image element to newImg variable
-                var newDiv = $('<div>'); 
-                var newP = $('<p>'); 
+                var newDiv = $('<div class="gifDiv">'); 
+                var newP = $('<p class="gifText">'); 
                 var newImg = $('<img>');
                 //Give img element stillImg, animated  & src attribute
                 newImg.attr('data-still', stillImg);
@@ -87,6 +75,7 @@ $(".search").keydown(function(event){
             }
         });
     }
+
     var gifAnimate = function() {
         //sets gifCondition to either still or animate
         gifCondition = $(this).data('type');
@@ -109,8 +98,7 @@ $(".search").keydown(function(event){
         }
     }
 
-    /*Main
-    ==============================================================*/
+    // Main Process
     createBtn();
     $(document).on('click', '.gif', displayGif);
     $(document).on('click', '.gifImage', gifAnimate);
